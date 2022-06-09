@@ -1,4 +1,4 @@
-// TODO: FINISH FORM //
+// TODO: MAKE BOOK CARDS //
 
 const bookContainer = document.querySelector('.books');
 const modal = document.querySelector('.modal');
@@ -16,8 +16,17 @@ addButton.addEventListener('click', () => {
         document.form.title.value,
         document.form.author.value,
         document.form.pages.value,
-        document.form.read.value
+        document.form.read.checked
     );
+
+    for (const val in newBook) {
+        const element = newBook[val];
+        if (element.length === 0) {
+            return;
+        }
+
+        console.log(`${val}: ${element.length}`);
+    }
 
     addBookToLibrary(newBook);
     modal.style.display = 'none';
@@ -28,22 +37,21 @@ function Book(title, author, pages, read) {
     this.author = author;
     this.pages = pages;
     this.read = read ? true : false;
-
-    this.info = function () {
-        return `${title} by ${author}, ${pages} pages`;
-    };
 }
 
 function addBookToLibrary(book) {
     myLibrary.push(book);
-    displayLibrary();
+    updateLibrary();
 }
 
-function displayLibrary() {
+function updateLibrary() {
+    bookContainer.innerHTML = '';
     myLibrary.forEach((book) => {
         const newBook = document.createElement('div');
+        newBook.setAttribute('name', book.title);
         newBook.classList.add('book');
-        newBook.innerText = book.info();
+        newBook.innerText = book.title;
+
         bookContainer.appendChild(newBook);
     });
 }
