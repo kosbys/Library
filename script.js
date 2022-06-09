@@ -4,7 +4,7 @@ const bookContainer = document.querySelector('.books');
 const modal = document.querySelector('.modal');
 const newButton = document.querySelector('.new-button');
 const addButton = document.querySelector('.add-button');
-const form = document.querySelector('#new-book-form');
+const form = document.forms['form'];
 const myLibrary = [];
 
 newButton.addEventListener('click', () => {
@@ -12,7 +12,15 @@ newButton.addEventListener('click', () => {
 });
 
 addButton.addEventListener('click', () => {
-    console.log(form);
+    const newBook = new Book(
+        document.form.title.value,
+        document.form.author.value,
+        document.form.pages.value,
+        document.form.read.value
+    );
+
+    addBookToLibrary(newBook);
+    modal.style.display = 'none';
 });
 
 function Book(title, author, pages, read) {
@@ -28,6 +36,7 @@ function Book(title, author, pages, read) {
 
 function addBookToLibrary(book) {
     myLibrary.push(book);
+    displayLibrary();
 }
 
 function displayLibrary() {
@@ -38,11 +47,3 @@ function displayLibrary() {
         bookContainer.appendChild(newBook);
     });
 }
-
-const b = new Book('a', 'b', 'c');
-
-const c = new Book('a', 'b', 'c');
-const d = new Book('a', 'b', 'c');
-
-addBookToLibrary(b);
-displayLibrary();
