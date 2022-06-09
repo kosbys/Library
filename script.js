@@ -4,6 +4,7 @@ const bookContainer = document.querySelector('.books');
 const modal = document.querySelector('.modal');
 const newButton = document.querySelector('.new-button');
 const addButton = document.querySelector('.add-button');
+const formValidator = document.querySelector('.alert');
 const form = document.forms['form'];
 const myLibrary = [];
 
@@ -12,6 +13,8 @@ newButton.addEventListener('click', () => {
 });
 
 addButton.addEventListener('click', () => {
+    formValidator.innerText = '';
+
     const newBook = new Book(
         document.form.title.value,
         document.form.author.value,
@@ -22,10 +25,9 @@ addButton.addEventListener('click', () => {
     for (const val in newBook) {
         const element = newBook[val];
         if (element.length === 0) {
+            formValidator.innerText = 'Please do not leave any empty fields';
             return;
         }
-
-        console.log(`${val}: ${element.length}`);
     }
 
     addBookToLibrary(newBook);
@@ -39,6 +41,10 @@ function Book(title, author, pages, read) {
     this.read = read ? true : false;
 }
 
+function bookInfo(book) {
+    return `${book.title} by ${book.author}, ${book.pages} pages \t read? ${book.read}`;
+}
+
 function addBookToLibrary(book) {
     myLibrary.push(book);
     updateLibrary();
@@ -50,7 +56,7 @@ function updateLibrary() {
         const newBook = document.createElement('div');
         newBook.setAttribute('name', book.title);
         newBook.classList.add('book');
-        newBook.innerText = book.title;
+        newBook.innerText = bookInfo(book);
 
         bookContainer.appendChild(newBook);
     });

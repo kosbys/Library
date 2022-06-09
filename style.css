@@ -49,7 +49,7 @@ body {
 
 @media (hover: hover) {
     .btn:hover {
-        background-color: #ee99a0; /* green: #a6da95 */
+        background-color: #a6da95; /* green: #a6da95 */
         color: #1e2030;
         font-size: 2.05rem;
         transition-duration: 0.6s;
@@ -57,7 +57,7 @@ body {
 }
 
 .btn:active {
-    background-color: #ed8796;
+    background-color: #eed49f;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
     transition-duration: 0.1s;
@@ -140,6 +140,16 @@ form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.alert {
+    margin-top: 1rem;
+    place-self: center;
+    text-align: center;
+    word-wrap: break-word;
+    width: 30%;
+    color: #ed8796;
+    font-size: 1.3rem;
 }
 
 @media screen and (max-height: 1000px) {
