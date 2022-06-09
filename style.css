@@ -75,8 +75,8 @@ body {
     text-align: center;
     place-self: center;
     margin: auto;
-    padding: 20px;
-    width: 30%;
+    width: fit-content;
+    padding: 5rem;
 }
 
 .book {
