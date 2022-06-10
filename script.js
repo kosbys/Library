@@ -158,7 +158,6 @@ function addBookToLibrary(book) {
 }
 
 function deleteBookFromLibrary(book) {
-    console.log(book);
     myLibrary.splice(myLibrary.indexOf(book), 1);
     updateLibraryDelete(book);
 }
