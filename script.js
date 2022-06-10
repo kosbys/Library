@@ -8,30 +8,14 @@ const formValidator = document.querySelector('.alert');
 const form = document.forms['form'];
 const myLibrary = [];
 
-newButton.addEventListener('click', () => {
-    modal.style.display = 'block';
-});
+newButton.addEventListener('click', toggleModal);
 
-addButton.addEventListener('click', () => {
-    formValidator.innerText = '';
+addButton.addEventListener('click', addBookEvent);
 
-    const newBook = new Book(
-        document.form.title.value,
-        document.form.author.value,
-        document.form.pages.value,
-        document.form.read.checked
-    );
-
-    for (const val in newBook) {
-        const element = newBook[val];
-        if (element.length === 0) {
-            formValidator.innerText = 'Please do not leave any empty fields';
-            return;
-        }
+let backgroundClickExitModal = (window.onclick = function (event) {
+    if (event.target == modal) {
+        toggleModal();
     }
-
-    addBookToLibrary(newBook);
-    modal.style.display = 'none';
 });
 
 function Book(title, author, pages, read) {
@@ -45,19 +29,56 @@ function bookInfo(book) {
     return `${book.title} by ${book.author}, ${book.pages} pages \t read? ${book.read}`;
 }
 
-function addBookToLibrary(book) {
-    myLibrary.push(book);
-    updateLibrary();
+function addBookEvent() {
+    let bookTitles = myLibrary.map((book) => {
+        return book.title;
+    });
+
+    const newBook = new Book(
+        document.form.title.value,
+        document.form.author.value,
+        document.form.pages.value,
+        document.form.read.checked
+    );
+
+    for (const value in newBook) {
+        const element = newBook[value];
+        if (element.length === 0) {
+            formValidator.innerText = 'Please do not leave any empty fields';
+            return;
+        }
+    }
+    if (bookTitles.includes(document.form.title.value)) {
+        formValidator.innerText = 'This book is already in the library';
+        return;
+    }
+
+    addBookToLibrary(newBook);
+    toggleModal();
+    resetForm();
 }
 
-function updateLibrary() {
-    bookContainer.innerHTML = '';
-    myLibrary.forEach((book) => {
-        const newBook = document.createElement('div');
-        newBook.setAttribute('name', book.title);
-        newBook.classList.add('book');
-        newBook.innerText = bookInfo(book);
+function resetForm() {
+    document.getElementById('new-book-form').reset();
+}
 
-        bookContainer.appendChild(newBook);
-    });
+function addBookToLibrary(book) {
+    myLibrary.push(book);
+    updateLibrary(book);
+}
+
+function updateLibrary(book) {
+    const newBook = document.createElement('div');
+    newBook.classList.add('book');
+    newBook.classList.add(book.title);
+    newBook.innerText = bookInfo(book);
+
+    bookContainer.appendChild(newBook);
+}
+
+function toggleModal() {
+    modal.style.display == 'none' || modal.style.display == ''
+        ? (modal.style.display = 'block')
+        : (modal.style.display = 'none');
+    formValidator.innerText = '';
 }
