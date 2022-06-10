@@ -95,16 +95,17 @@ function BookCard(book) {
     this.author = cardAuthor(book.author);
     this.pages = cardPages(book.pages);
     this.read = cardRead(book.read);
-    this.delete = cardDelete(book);
+    this.delete = cardDelete(this);
+    this.index = book.title.replace(/\s/g, '');
 }
 
 BookCard.prototype.combine = function () {
     const newBook = document.createElement('div');
     newBook.classList.add('book-card');
-    newBook.classList.add(this.title.innerText);
+    newBook.classList.add(this.index);
 
     for (const value in this) {
-        if (Object.hasOwnProperty.call(this, value)) {
+        if (Object.hasOwnProperty.call(this, value) && value != 'index') {
             const element = this[value];
             newBook.appendChild(element);
         }
@@ -147,25 +148,25 @@ function resetForm() {
 }
 
 function addBookToLibrary(book) {
-    myLibrary.push(book);
-    updateLibraryAdd(book);
+    newBook = new BookCard(book);
+
+    newCard = newBook.combine();
+
+    myLibrary.push(newCard);
+
+    bookContainer.appendChild(newCard);
 }
 
 function deleteBookFromLibrary(book) {
+    console.log(book);
     myLibrary.splice(myLibrary.indexOf(book), 1);
     updateLibraryDelete(book);
-}
-
-function updateLibraryAdd(book) {
-    newBook = new BookCard(book);
-    newCard = newBook.combine();
-    bookContainer.appendChild(newCard);
 }
 
 function updateLibraryDelete(book) {
     let cardToDelete;
     for (const child of bookContainer.children) {
-        if ([...child.classList].includes(book.title)) {
+        if ([...child.classList].includes(book.index)) {
             cardToDelete = child;
         }
     }

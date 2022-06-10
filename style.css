@@ -1,9 +1,7 @@
 /* || General styles */
 
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Code+Pro&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Joan&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Code+Pro&display=swap');
 * {
-    font-family: 'Roboto', sans-serif;
     color: #b8c0e0;
 }
 
@@ -43,6 +41,7 @@ body {
 
 .btn {
     background-color: #b7bdf8;
+    font-family: 'Roboto', sans-serif;
     color: #363a4f;
     border: none;
     padding: 1rem 2rem;
@@ -176,6 +175,7 @@ input[type='checkbox'] {
 }
 
 .book-card {
+    font-family: 'Joan', serif;
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
