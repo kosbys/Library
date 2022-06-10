@@ -1,5 +1,3 @@
-// TODO: MAKE BOOK CARDS //
-
 const bookContainer = document.querySelector('.books');
 const modal = document.querySelector('.modal');
 const newButton = document.querySelector('.new-button');
@@ -17,13 +15,6 @@ let backgroundClickExitModal = (window.onclick = function (event) {
         toggleModal();
     }
 });
-
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read ? true : false;
-}
 
 function cardTitle(name) {
     title = document.createElement('div');
@@ -75,16 +66,42 @@ function cardRead(bool) {
     return read.div;
 }
 
+function cardDelete(book) {
+    buttonDiv = document.createElement('div');
+    buttonDiv.classList.add('delete');
+
+    button = document.createElement('button');
+    button.classList.add('btn');
+    button.classList.add('delete-button');
+    button.addEventListener('click', () => {
+        deleteBookFromLibrary(book);
+    });
+
+    button.innerText = 'DELETE';
+    buttonDiv.appendChild(button);
+
+    return buttonDiv;
+}
+
+function Book(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read ? true : false;
+}
+
 function BookCard(book) {
     this.title = cardTitle(book.title);
     this.author = cardAuthor(book.author);
     this.pages = cardPages(book.pages);
     this.read = cardRead(book.read);
+    this.delete = cardDelete(book);
 }
 
 BookCard.prototype.combine = function () {
     const newBook = document.createElement('div');
     newBook.classList.add('book-card');
+    newBook.classList.add(this.title.innerText);
 
     for (const value in this) {
         if (Object.hasOwnProperty.call(this, value)) {
@@ -95,10 +112,6 @@ BookCard.prototype.combine = function () {
 
     return newBook;
 };
-
-function bookInfo(book) {
-    return `${book.title} by ${book.author}, ${book.pages} pages \t read? ${book.read}`;
-}
 
 function addBookEvent() {
     let bookTitles = myLibrary.map((book) => {
@@ -138,7 +151,10 @@ function addBookToLibrary(book) {
     updateLibraryAdd(book);
 }
 
-function deleteBookFromLibrary(book) {}
+function deleteBookFromLibrary(book) {
+    myLibrary.splice(myLibrary.indexOf(book), 1);
+    updateLibraryDelete(book);
+}
 
 function updateLibraryAdd(book) {
     newBook = new BookCard(book);
@@ -146,7 +162,15 @@ function updateLibraryAdd(book) {
     bookContainer.appendChild(newCard);
 }
 
-function updateLibraryDelete(book) {}
+function updateLibraryDelete(book) {
+    let cardToDelete;
+    for (const child of bookContainer.children) {
+        if ([...child.classList].includes(book.title)) {
+            cardToDelete = child;
+        }
+    }
+    bookContainer.removeChild(cardToDelete);
+}
 
 function initializeRead(element, bool) {
     switch (bool) {

@@ -223,6 +223,19 @@ input[type='checkbox'] {
     color: #8bd5ca;
 }
 
+.delete > .btn {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.delete > .btn:hover {
+    background-color: #eed49f;
+}
+
+.delete > .btn:active {
+    background-color: #ed8796;
+}
+
 /* || Media queries */
 
 @media screen and (max-height: 1000px) {
