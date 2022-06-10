@@ -169,8 +169,10 @@ input[type='checkbox'] {
 /* || Book cards */
 
 .books {
+    padding: 3rem;
     display: flex;
-    gap: 5rem;
+    flex-wrap: wrap;
+    gap: 4rem;
 }
 
 .book-card {
