@@ -93,6 +93,7 @@ body {
 }
 
 .modal-form {
+    font-family: 'Roboto', sans-serif;
     background-color: #24273a;
     border: 1px solid #363a4f;
     text-align: center;
@@ -209,6 +210,7 @@ input[type='checkbox'] {
 }
 
 .card-read {
+    font-family: 'Roboto', sans-serif;
     text-align: right;
     font-size: 1.5rem;
 }

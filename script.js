@@ -97,6 +97,7 @@ function BookCard(book) {
     this.read = cardRead(book.read);
     this.delete = cardDelete(this);
     this.index = book.title.replace(/\s/g, '');
+    this.titleSimple = book.title;
 }
 
 BookCard.prototype.combine = function () {
@@ -105,7 +106,10 @@ BookCard.prototype.combine = function () {
     newBook.classList.add(this.index);
 
     for (const value in this) {
-        if (Object.hasOwnProperty.call(this, value) && value != 'index') {
+        if (
+            Object.hasOwnProperty.call(this, value) &&
+            !(value == 'index' || value == 'titleSimple')
+        ) {
             const element = this[value];
             newBook.appendChild(element);
         }
@@ -116,7 +120,7 @@ BookCard.prototype.combine = function () {
 
 function addBookEvent() {
     let bookTitles = myLibrary.map((book) => {
-        return book.title;
+        return book.titleSimple;
     });
 
     const newBook = new Book(
@@ -152,7 +156,7 @@ function addBookToLibrary(book) {
 
     newCard = newBook.combine();
 
-    myLibrary.push(newCard);
+    myLibrary.push(newBook);
 
     bookContainer.appendChild(newCard);
 }
