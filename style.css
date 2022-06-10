@@ -166,6 +166,63 @@ input[type='checkbox'] {
     font-size: 1.3rem;
 }
 
+/* || Book cards */
+
+.books {
+    display: flex;
+    gap: 5rem;
+}
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    background-color: #181926;
+    padding: 1rem;
+}
+
+.book-card > div {
+    color: #f4dbd6;
+    padding: 1rem;
+}
+
+.card-title {
+    font-size: 3rem;
+}
+
+.card-author {
+    font-size: 2.6rem;
+}
+
+.card-pages {
+    font-size: 1.8rem;
+}
+
+.card-pages > span {
+    color: #eed49f;
+}
+
+.card-read {
+    text-align: right;
+    font-size: 1.5rem;
+}
+
+.card-read > a#read {
+    color: #a6da95;
+}
+
+.card-read > a#unread {
+    color: #ed8796;
+}
+
+.card-read > a#read:hover,
+.card-read > a#unread:hover {
+    transition-duration: 0.5s;
+    font-size: 2rem;
+    color: #8bd5ca;
+}
+
 /* || Media queries */
 
 @media screen and (max-height: 1000px) {
