@@ -16,114 +16,109 @@ let backgroundClickExitModal = (window.onclick = function (event) {
     }
 });
 
-function cardTitle(name) {
-    title = document.createElement('div');
-    title.classList.add('card-title');
-    title.innerText = name;
-
-    return title;
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read ? true : false;
+    }
 }
 
-function cardAuthor(name) {
-    author = document.createElement('div');
-    author.classList.add('card-author');
-    author.innerText = name;
-
-    return author;
-}
-
-function cardPages(num) {
-    pages = {
-        count: document.createElement('div'),
-        pagesSpan: document.createElement('span'),
-    };
-
-    pages.count.classList.add('card-pages');
-    pages.pagesSpan.innerText = num;
-    pages.count.appendChild(pages.pagesSpan);
-    pages.count.appendChild(document.createTextNode(' Pages'));
-
-    return pages.count;
-}
-
-function cardRead(bool) {
-    read = {
-        div: document.createElement('div'),
-        toggle: document.createElement('a'),
-    };
-    read.div.classList.add('card-read');
-    read.toggle.addEventListener('click', () => {
-        toggleRead(read.toggle);
-    });
-    read.div.appendChild(read.toggle);
-
-    if (bool) {
-        initializeRead(read.toggle, true);
-    } else {
-        initializeRead(read.toggle, false);
+class BookCard extends Book {
+    constructor(title, author, pages, read) {
+        super(title, author, pages, read);
+        this.index = title.replace(/\s/g, '');
     }
 
-    return read.div;
-}
+    get titleDiv() {
+        const div = document.createElement('div');
+        div.classList.add('card-title');
+        div.innerText = this.title;
 
-function cardDelete(book) {
-    buttonDiv = document.createElement('div');
-    buttonDiv.classList.add('delete');
+        return div;
+    }
 
-    button = document.createElement('button');
-    button.classList.add('btn');
-    button.classList.add('delete-button');
-    button.addEventListener('click', () => {
-        deleteBookFromLibrary(book);
-    });
+    get authorDiv() {
+        const div = document.createElement('div');
+        div.classList.add('card-author');
+        div.innerText = this.author;
 
-    button.innerText = 'DELETE';
-    buttonDiv.appendChild(button);
+        return div;
+    }
 
-    return buttonDiv;
-}
+    get pagesDiv() {
+        const div = {
+            count: document.createElement('div'),
+            pagesSpan: document.createElement('span'),
+        };
 
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read ? true : false;
-}
+        div.count.classList.add('card-pages');
+        div.pagesSpan.innerText = this.pages;
+        div.count.appendChild(div.pagesSpan);
+        div.count.appendChild(document.createTextNode(' Pages'));
 
-function BookCard(book) {
-    this.title = cardTitle(book.title);
-    this.author = cardAuthor(book.author);
-    this.pages = cardPages(book.pages);
-    this.read = cardRead(book.read);
-    this.delete = cardDelete(this);
-    this.index = book.title.replace(/\s/g, '');
-    this.titleSimple = book.title;
-}
+        return div.count;
+    }
 
-BookCard.prototype.combine = function () {
-    const newBook = document.createElement('div');
-    newBook.classList.add('book-card');
-    newBook.classList.add(this.index);
+    get readDiv() {
+        const div = {
+            d: document.createElement('div'),
+            toggle: document.createElement('a'),
+        };
+        div.d.classList.add('card-read');
+        div.toggle.addEventListener('click', () => {
+            toggleRead(div.toggle);
+        });
+        div.d.appendChild(div.toggle);
 
-    for (const value in this) {
-        if (
-            Object.hasOwnProperty.call(this, value) &&
-            !(value == 'index' || value == 'titleSimple')
-        ) {
-            const element = this[value];
-            newBook.appendChild(element);
+        if (this.read) {
+            initializeRead(div.toggle, true);
+        } else {
+            initializeRead(div.toggle, false);
         }
+
+        return div.d;
     }
 
-    return newBook;
-};
+    get deleteDiv() {
+        const div = document.createElement('div');
+        div.classList.add('delete');
+
+        let button = document.createElement('button');
+        button.classList.add('btn');
+        button.classList.add('delete-button');
+        button.addEventListener('click', () => {
+            deleteBookFromLibrary(this);
+        });
+
+        button.innerText = 'DELETE';
+        div.appendChild(button);
+
+        return div;
+    }
+
+    combine() {
+        const newBook = document.createElement('div');
+        newBook.classList.add('book-card');
+        newBook.classList.add(this.index);
+
+        newBook.appendChild(this.titleDiv);
+        newBook.appendChild(this.authorDiv);
+        newBook.appendChild(this.pagesDiv);
+        newBook.appendChild(this.readDiv);
+        newBook.appendChild(this.deleteDiv);
+
+        return newBook;
+    }
+}
 
 function addBookEvent() {
     let bookTitles = myLibrary.map((book) => {
         return book.titleSimple;
     });
 
-    const newBook = new Book(
+    const newBook = new BookCard(
         document.form.title.value,
         document.form.author.value,
         document.form.pages.value,
@@ -152,11 +147,9 @@ function resetForm() {
 }
 
 function addBookToLibrary(book) {
-    newBook = new BookCard(book);
+    newCard = book.combine();
 
-    newCard = newBook.combine();
-
-    myLibrary.push(newBook);
+    myLibrary.push(newCard);
 
     bookContainer.appendChild(newCard);
 }
